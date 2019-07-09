@@ -58,4 +58,21 @@ class UsuarioOrigem {
         return $conta;
     }
 
+    public static function ObterStatus($id_usuario) {
+        GLOBAL $conn_origem;
+
+        $result = $conn_origem->query('SELECT status FROM faturas WHERE id_usuario = '. $id_usuario .' and status = 1');
+
+        $fatura = null;
+
+        while($row = $result->fetch_object()) {
+            $fatura = $row;
+        }
+
+        if ($fatura != null && $fatura->status == 1)
+            return 'active';
+        
+        return 'inactive';
+    }
+
 }

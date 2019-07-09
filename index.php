@@ -3,10 +3,13 @@
 require_once('connection.php');
 require_once('UsuarioOrigem.php');
 require_once('UsuarioDestino.php');
+require_once('Fatura.php');
+require_once('Invoice.php');
 
-Migrar();
+MigrarUsuarios();
+MigrarFaturas();
 
-function Migrar() {
+function MigrarUsuarios() {
     $usuariosDeOrigem = UsuarioOrigem::Listar();
 
     foreach($usuariosDeOrigem as $usuario) {        
@@ -22,7 +25,24 @@ function Migrar() {
 
     }
 
-    echo 'Processamento concluído!';
+    echo '<p>Processamento de Usuários concluído!</p>';
+}
+
+function MigrarFaturas() {
+
+    $faturas = Fatura::Listar();
+
+    foreach($faturas as $fatura) {
+        $plano = Fatura::ObterPlano($fatura->id_plano);
+
+        if ($plano != null) {
+            $invoice = Invoice::Adicionar($fatura, $plano);
+            Invoice::AdicionarItem($invoice, $plano);
+            UsuarioDestino::AtualizarPacote($fatura->id_usuario, $plano);
+        }
+    }
+
+    echo '<p>Processamento de Faturas concluído!</p>';
 }
 
 $conn_origem->close();

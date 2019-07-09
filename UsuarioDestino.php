@@ -4,6 +4,8 @@ class UsuarioDestino {
     public static function Adicionar($usuarioOrigem, $patrocinador, $conta) {
         GLOBAL $conn_destino;
 
+        $status = UsuarioOrigem::ObterStatus($usuarioOrigem->id);
+        $bonus_daily = $status;
         $banned = $usuarioOrigem->block ? 'Y' : 'N';
         $chave_binaria = $usuarioOrigem->chave_binaria == 1 ? 'left' : 'right';
 
@@ -68,7 +70,7 @@ class UsuarioDestino {
                                                 pacote) VALUES ('$usuarioOrigem->login',
                                                                 '$usuarioOrigem->senha',
                                                                 '$usuarioOrigem->email',
-                                                                'active',
+                                                                '$status',
                                                                 'active',
                                                                 '$banned',
                                                                 '$usuarioOrigem->nome',
@@ -99,7 +101,7 @@ class UsuarioDestino {
                                                                 0,
                                                                 0,
                                                                 0,
-                                                                0,
+                                                                '$bonus_daily',
                                                                 '$codigo_banco',
                                                                 '$agencia',
                                                                 '$agencia_digito',
@@ -126,5 +128,13 @@ class UsuarioDestino {
                                                       user_right) VALUES ($id_usuario,
                                                                           $esquerda,
                                                                           $direita)");
+    }
+
+    public static function AtualizarPacote($usuario_id, $plano) {
+        GLOBAL $conn_destino;
+
+        $nomeDoPacote = Invoice::ObterNomeDoPacote($plano);
+
+        $conn_destino->query("UPDATE users SET pacote = '$nomeDoPacote' WHERE id = $usuario_id");
     }
 }

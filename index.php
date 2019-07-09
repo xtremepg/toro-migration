@@ -19,10 +19,13 @@ function MigrarUsuarios() {
 
         UsuarioDestino::Adicionar($usuario, $patrocinador, $conta);
 
-        $esquerda = UsuarioOrigem::ObterChaveBinaria($usuario->id, 1);
-        $direita = UsuarioOrigem::ObterChaveBinaria($usuario->id, 2);
-        UsuarioDestino::AdicionarBinario($usuario->id, $esquerda, $direita);
+        if (UsuarioOrigem::ObterStatusDaRede($usuario->id)) {
 
+            $esquerda = UsuarioOrigem::ObterChaveBinaria($usuario->id, 1);
+            $direita = UsuarioOrigem::ObterChaveBinaria($usuario->id, 2);
+
+            UsuarioDestino::AdicionarBinario($usuario->id, $esquerda, $direita);
+        }
     }
 
     echo '<p>Processamento de Usuários concluído!</p>';
@@ -33,9 +36,11 @@ function MigrarFaturas() {
     $faturas = Fatura::Listar();
 
     foreach($faturas as $fatura) {
+        
         $plano = Fatura::ObterPlano($fatura->id_plano);
 
         if ($plano != null) {
+
             $invoice = Invoice::Adicionar($fatura, $plano);
             Invoice::AdicionarItem($invoice, $plano);
             UsuarioDestino::AtualizarPacote($fatura->id_usuario, $plano);

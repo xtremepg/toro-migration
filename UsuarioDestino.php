@@ -17,6 +17,11 @@ class UsuarioDestino {
         $conta_digito = isset($conta->digito_conta) ? $conta->digito_conta : null;
         $conta_operacao = isset($conta->operacao) ? $conta->operacao : null;
 
+        $binary_left_points = UsuarioOrigem::ObterPontuacaoBinaria($usuarioOrigem->id, 1);
+        $binary_left_points_total = $binary_left_points;
+        $binary_right_points = UsuarioOrigem::ObterPontuacaoBinaria($usuarioOrigem->id, 2);
+        $binary_right_points_total = $binary_right_points;
+
         $conn_destino->query("INSERT INTO users(username,
                                                 password,
                                                 email,
@@ -93,12 +98,12 @@ class UsuarioDestino {
                                                                 0,
                                                                 '$chave_binaria',
                                                                 NULL,
+                                                                $binary_left_points,
+                                                                $binary_left_points_total,
                                                                 0,
                                                                 0,
-                                                                0,
-                                                                0,
-                                                                0,
-                                                                0,
+                                                                $binary_right_points,
+                                                                $binary_right_points_total,
                                                                 0,
                                                                 0,
                                                                 '$bonus_daily',

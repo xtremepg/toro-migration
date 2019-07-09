@@ -75,4 +75,35 @@ class UsuarioOrigem {
         return 'inactive';
     }
 
+    public static function ObterPontuacaoBinaria($id_usuario, $lado) {
+        GLOBAL $conn_origem;
+
+        $result = $conn_origem->query('SELECT * FROM rede_pontos_binario WHERE id_usuario = '. $id_usuario .' and chave_binaria = '. $lado .'');
+
+        $pontos = 0;
+
+        while($row = $result->fetch_object()) {
+            $pontos += $row->pontos;
+        }
+
+        return $pontos;
+    }
+
+    public static function ObterStatusDaRede($id_usuario) {
+        GLOBAL $conn_origem;
+
+        $result = $conn_origem->query('SELECT plano_ativo FROM rede WHERE id_usuario = '. $id_usuario .'');
+
+        $status = null;
+
+        while($row = $result->fetch_object()) {
+            $status = $row;
+        }
+
+        if ($status != null && $status->plano_ativo == 1)
+            return true;
+        
+        return false;
+    }
+
 }

@@ -5,6 +5,7 @@ require_once('UsuarioOrigem.php');
 require_once('UsuarioDestino.php');
 require_once('Fatura.php');
 require_once('Invoice.php');
+require_once('Investment.php');
 
 MigrarUsuarios();
 MigrarFaturas();
@@ -48,6 +49,9 @@ function MigrarFaturas() {
             $invoice = Invoice::Adicionar($fatura, $plano);
             Invoice::AdicionarItem($invoice, $plano);
             UsuarioDestino::AtualizarPacote($fatura->id_usuario, $plano);
+
+            if ($invoice->status == 'paid')
+                Investment::Adicionar($invoice);
         }
     }
 

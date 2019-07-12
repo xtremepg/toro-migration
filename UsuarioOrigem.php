@@ -114,10 +114,11 @@ class UsuarioOrigem {
         $ganhos = 0;
 
         while($row = $result->fetch_object()) {
-            $ganhos = ($row->saldo_rendimentos + $row->saldo_indicacoes);
+            $ganhos = ($row->saldo_rendimentos);
         }
 
         return $ganhos;
     }
 
 }
+?>

@@ -5,6 +5,7 @@ class UsuarioDestino {
         GLOBAL $conn_destino;
 
         $status = UsuarioOrigem::ObterStatus($usuarioOrigem->id);
+        $earnings = $usuarioOrigem->saldo_rendimentos + $usuarioOrigem->saldo_indicacoes;
         $bonus_daily = $status;
         $banned = $usuarioOrigem->block ? 'Y' : 'N';
         $chave_binaria = $usuarioOrigem->chave_binaria == 1 ? 'left' : 'right';
@@ -86,7 +87,7 @@ class UsuarioDestino {
                                                                 $usuarioOrigem->saldo_rendimentos,
                                                                 $usuarioOrigem->saldo_indicacoes,
                                                                 0,
-                                                                0,
+                                                                $earnings,
                                                                 $patrocinador,
                                                                 '$usuarioOrigem->data_cadastro',
                                                                 NULL,

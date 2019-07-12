@@ -4,6 +4,7 @@ class Investment {
     public static function Adicionar($invoice) {
         GLOBAL $conn_destino;
 
+        $earnings = UsuarioOrigem::ObterGanhos($invoice->user_id);
         $max_earnings = ($invoice->total * 2);
 
         $conn_destino->query("INSERT INTO investments(user_id,
@@ -17,7 +18,7 @@ class Investment {
                                                                             null,
                                                                             $invoice->total,
                                                                             'active',
-                                                                            0,
+                                                                            $earnings,
                                                                             $max_earnings)");
     }
 }

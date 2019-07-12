@@ -106,4 +106,18 @@ class UsuarioOrigem {
         return false;
     }
 
+    public static function ObterGanhos($id_usuario) {
+        GLOBAL $conn_origem;
+
+        $result = $conn_origem->query('SELECT * FROM usuarios WHERE id = '. $id_usuario .'');
+
+        $ganhos = 0;
+
+        while($row = $result->fetch_object()) {
+            $ganhos = ($row->saldo_rendimentos + $row->saldo_indicacoes);
+        }
+
+        return $ganhos;
+    }
+
 }

@@ -33,7 +33,7 @@ class UsuarioOrigem {
     public static function ObterChaveBinaria($id_usuario, $lado) {
         GLOBAL $conn_origem;
 
-        $result = $conn_origem->query('SELECT id_usuario FROM rede WHERE id_patrocinador_direto = '. $id_usuario .' and chave_binaria = '. $lado .'');
+        $result = $conn_origem->query('SELECT id_usuario FROM rede WHERE id_patrocinador = '. $id_usuario .' and chave_binaria = '. $lado .' and plano_ativo = 1');
 
         $usuario = 0;
 

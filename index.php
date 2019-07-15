@@ -24,11 +24,7 @@ function MigrarUsuarios() {
         if (UsuarioOrigem::ObterStatusDaRede($usuario->id)) {
 
             $esquerda = UsuarioOrigem::ObterChaveBinaria($usuario->id, 1);
-            $esquerda = UsuarioOrigem::ObterStatusDaRede($esquerda) ? $esquerda : 0;
-
-
             $direita = UsuarioOrigem::ObterChaveBinaria($usuario->id, 2);
-            $direita = UsuarioOrigem::ObterStatusDaRede($direita) ? $direita : 0;
 
             UsuarioDestino::AdicionarBinario($usuario->id, $esquerda, $direita);
         }

@@ -16,6 +16,7 @@ function MigrarUsuarios() {
     foreach($usuariosDeOrigem as $usuario) {        
 
         $patrocinador = UsuarioOrigem::ObterPatrocinador($usuario->id);
+        $patrocinador = $patrocinador > 0 ? $patrocinador : "0";
         $conta = UsuarioOrigem::ObterConta($usuario->id);
 
         UsuarioDestino::Adicionar($usuario, $patrocinador, $conta);

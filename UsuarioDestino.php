@@ -23,7 +23,8 @@ class UsuarioDestino {
         $binary_right_points = UsuarioOrigem::ObterPontuacaoBinaria($usuarioOrigem->id, 2);
         $binary_right_points_total = $binary_right_points;
 
-        $conn_destino->query("INSERT INTO users(username,
+        $conn_destino->query("INSERT INTO users(id,
+                                                username,
                                                 password,
                                                 email,
                                                 status,
@@ -73,7 +74,8 @@ class UsuarioDestino {
                                                 city,
                                                 state_abbreviation,
                                                 zip_code,
-                                                pacote) VALUES ('$usuarioOrigem->login',
+                                                pacote) VALUES ($usuarioOrigem->id,
+                                                                '$usuarioOrigem->login',
                                                                 '$usuarioOrigem->senha',
                                                                 '$usuarioOrigem->email',
                                                                 '$status',

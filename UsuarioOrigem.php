@@ -19,12 +19,12 @@ class UsuarioOrigem {
     public static function ObterPatrocinador($id_usuario) {
         GLOBAL $conn_origem;
 
-        $result = $conn_origem->query('SELECT id_patrocinador FROM rede WHERE id_usuario = '. $id_usuario .'');
+        $result = $conn_origem->query('SELECT id_patrocinador_direto FROM rede WHERE id_usuario = '. $id_usuario .'');
 
         $patrocinador = 0;
 
         while($row = $result->fetch_object()) {
-            $patrocinador = $row->id_patrocinador;
+            $patrocinador = $row->id_patrocinador_direto;
         }
 
         return $patrocinador;
